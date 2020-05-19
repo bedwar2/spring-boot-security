@@ -24,7 +24,11 @@ public class MdpUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String eidmUserId) throws UsernameNotFoundException {
         Optional<User> user =  this.userRepository.findByEidmUserIdIgnoreCase(eidmUserId);
+
+        //Remember .orElseThrow uses a lambda
         user.orElseThrow(() -> new UsernameNotFoundException("Not found " + eidmUserId));
+
+        //Same as return new MDPUserDetails(user.get())
         return user.map(MdpUserDetails::new).get();
 
         //Original more wordy code below
