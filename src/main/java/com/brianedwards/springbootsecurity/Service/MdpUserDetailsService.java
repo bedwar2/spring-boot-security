@@ -21,6 +21,14 @@ public class MdpUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    public User getMDPUserInfo(String eidmUserId)  throws UsernameNotFoundException {
+        Optional<User> user =  this.userRepository.findByEidmUserIdIgnoreCase(eidmUserId);
+
+        user.orElseThrow(() -> new UsernameNotFoundException("Not found " + eidmUserId));
+
+        return user.get();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String eidmUserId) throws UsernameNotFoundException {
         Optional<User> user =  this.userRepository.findByEidmUserIdIgnoreCase(eidmUserId);
